@@ -75,6 +75,7 @@ He mantenido la estructura general que he utilizado hasta ahora, pero he mejorad
 
 <details>
 <summary>include/Config.php</summary>
+  
 ```php
 <?php
 
