@@ -51,7 +51,7 @@ Los productos, todos ellos Free, que he utilizado son:
 - [**NetBean for PHP**](https://netbeans.apache.org/tutorial/main/kb/docs/php/quickstart/). Para hacer el **desarrollo del Back-End.**
 - [**Microsoft Visual Studio Code**](https://code.visualstudio.com/). Para hacer el **desarrollo del Front-End**.
 
-Se puede utiliza el IDE de Microsoft para todo el desarrollo, pero estos son mis gustos ![😊](https://s.w.org/images/core/emoji/17.0.2/svg/1f60a.svg) y así los he utilizado.
+Se puede utiliza el IDE de Microsoft para todo el desarrollo, pero estos son mis gustos y así los he utilizado.
 
 En el IDE de Microsoft se integra **Copilot**, su **IA**. Ahora, es de gran ayuda, te soluciona muchos problemas y te genera  bastante código. No obstante, hay que conocer el entorno, pues aunque ha mejorado mucho, se sigue equivocando y tienes que «corregirlo».
 
@@ -176,6 +176,7 @@ $errorMessages = array(
 ```
 
 </details>
+<details>
 <summary>v1/index.php</summary>
 
 ```php
