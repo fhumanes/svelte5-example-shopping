@@ -270,7 +270,7 @@ $app->post('/login', function (Request $request, Response $response, $args) use 
 $app->post('/logout', function (Request $request, Response $response, $args) use ($db) {        // Login
          return $db->logout($request, $response, $args);
     });
-    
+
 $app->get('/userInfo', function (Request $request, Response $response, $args) use ($db) {         // Info user
          return $db->userInfo($request, $response, $args);
     });
@@ -280,7 +280,7 @@ $app->put('/userUpdate', function (Request $request, Response $response, $args) 
 $app->put('/userPassword', function (Request $request, Response $response, $args) use ($db) {      // Change Password
          return $db->userPassword($request, $response, $args);
     });
-    
+
 // Grupo de Grupos (para los grupos en los que pertenece el Usuario) Habrá otro grupo para el Administrador
 $app->group('/group', function (RouteCollectorProxy $group) use ($db) {
     $group->get('', function (Request $request, Response $response, $args) use ($db) {          // List User
@@ -419,6 +419,7 @@ $app->group('/user', function (RouteCollectorProxy $group) use ($db) {
 
 $app->run();
 ```
+
 </details>
 <details>
 <summary>include/DbFunctions.php</summary>
@@ -449,7 +450,7 @@ require_once __DIR__.'/DBF_user.php';
 /*
     use Psr\Http\Message\ResponseInterface as Response;
     use Psr\Http\Message\ServerRequestInterface as Request;
-    
+
     use PHPMailer\PHPMailer\PHPMailer;   // PHPMailer
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
@@ -478,7 +479,7 @@ class DbFunctions
             custom_error(1000,"Error en DbFunction: ".print_r($e, true));  // to Debug
             throw new PDOException($e->getMessage(), (int)$e->getCode());
         }
-         
+
     }
 
      use Identification;              // Grupo de funcionaes de identificacion   
@@ -490,16 +491,17 @@ class DbFunctions
      use User;                        // Grupo de funciones sobre Usuarios
 }
 ```
+
 </details>
 <details>
 <summary>include/DBF_Identification.php</summary>
 
 ```php
 <?php
-    
+
     use Psr\Http\Message\ServerRequestInterface as Request;
     use Psr\Http\Message\ResponseInterface as Response;
-    
+
     use PHPMailer\PHPMailer\PHPMailer;   // phpmAILER
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
@@ -520,7 +522,7 @@ trait Identification {
                 ->withHeader('content-type', 'application/json')
                 ->withStatus($verify['error_status']);   
         }
-        
+
         $param = $request->getParsedBody();          // Obtener los datos del JSON
         // Verificación de que están todos los campos
         $verify = verifyRequiredParams(array('login', 'email', 'nombre', 'password'), $param);
@@ -541,7 +543,7 @@ trait Identification {
                 ->withStatus(500);
         }
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if (is_array($data)) {
             // Ya existe otro usuario con ese mismo email
            $response->getBody()->write(json_encode(["message"=> $errorMessages['009']]));
@@ -549,19 +551,19 @@ trait Identification {
                 ->withHeader('content-type', 'application/json')
                 ->withStatus(401);
         }
-        
+
         $now = date('Y-m-d H:i:s');         // Fecha actual
         $stmt = $this->db->prepare("INSERT INTO user (login, name_surname, password, email, date_last_change, isAdministrator, active)
                 VALUES (:login,:name,:password,:email,'$now','0','1') ");
         $stmt->execute([':login' => $param['login'] ,':name' => $param['nombre'],
                         ':password'=>md5($param['password']),':email'=>$param['email']]);
-        
-        
+
+
         $this->sendEmail('info@fhumanes.com', [['email'=>$email,'name'=>$param['nombre']]], 
                 [['email'=>'info@fhumanes.com','name'=>'Info']] ,
                 'Solicitada el alta en la APP Shopping',
                 '<p> Se ha solicitado y dado de alta un usuario con este email en la APP Shopping </p>'); // Mensaje de email de prueba
-                
+
         $response->getBody()->write(json_encode(["message"=> $errorMessages['010']]));
          return $response
              ->withHeader('content-type', 'application/json')
@@ -581,7 +583,7 @@ trait Identification {
                 ->withHeader('content-type', 'application/json')
                 ->withStatus($verify['error_status']);   
         }
-        
+
         $param = $request->getParsedBody();          // Obtener los datos del JSON
         // Verificación de que están todos los campos
         $verify = verifyRequiredParams(array('login', 'password'), $param);
@@ -591,9 +593,9 @@ trait Identification {
                 ->withHeader('content-type', 'application/json')
                 ->withStatus($verify['error_status']);   
         }
-        
+
         $verify = $this->createSession($request, $response);    // Crea la sesión
-        
+
         $error_status = $verify['error_status'];
         unset($verify['error_status']);             // se borraran las variables que no se desean enviar
         unset($verify['message_num']); 
@@ -603,14 +605,14 @@ trait Identification {
                 ->withHeader('content-type', 'application/json')
                 ->withStatus($error_status);   
         }
-        
+
     /*
     * Logout del usuario
     */
     public function logout(Request $request, Response $response )
     {
         global $errorMessages;
-        
+
         // Verificación Token de Usuario
         $verify = $this->controlSession($request, $response); 
         if ($verify['error'] == true ){ // Se ha encontrado error en la verificación
@@ -619,11 +621,11 @@ trait Identification {
                 ->withHeader('content-type', 'application/json')
                 ->withStatus($verify['error_status']);   
         }
-        
+
         $param = array();
         $param['uuid'] = $verify['token-user']; 
         $verify = $this->deleteSession($request,$response, $param);         // Eliminación de la sessión
-   
+
         if ($verify['error'] == true ){ // Se ha encontrado error en la verificación
             $response->getBody()->write(json_encode(["message"=> $verify['message']]));
             return $response
@@ -635,7 +637,7 @@ trait Identification {
                 ->withHeader('content-type', 'application/json')
                 ->withStatus(200); 
         }
-    
+
     // Acceso a la información de un Usuario
     public function userInfo(Request $request, Response $response, $args)   
     {   
@@ -654,7 +656,7 @@ trait Identification {
 
         $id_user = $dataUser['id_user'];
         $is_administrator = $dataUser['isAdministrator'];
- 
+
         // Obtener los datos del Usuario conectado
         $stmt = $this->db->prepare("SELECT u1.id_user, u1.login, ".
         " u1.name_surname, u1.email, u1.user_last_change, u2.name_surname user_last_change_text, ".
@@ -667,12 +669,12 @@ trait Identification {
         // Ejecutar y obtener resultados
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC); // Recupera todos los registros
-        
+
         $response->getBody()->write(json_encode(['data'=>$data]));
          return $response
              ->withHeader('content-type', 'application/json')
              ->withStatus(200);
-    
+
     }
     // EDIT de Usuarios
     public function userUpdate(Request $request, Response $response, $args)   
@@ -692,13 +694,13 @@ trait Identification {
 
         $id_user = $dataUser['id_user'];
         $is_administrator = $dataUser['isAdministrator'];
-              
+
         // Verificación de que están todos los campos 
         // " login, name_surname,  email"
         // Todos los campos son obligatorios
-        
+
         $param = $request->getParsedBody();          // Obtener los datos del JSON
-       
+
         $verify = verifyRequiredParams(array('login', 'name_surname', 'email'), $param); 
         if ($verify['error'] == true ){ // Se ha encontrado error en la verificación
             $response->getBody()->write(json_encode(["message"=> $verify['message']]));
@@ -718,7 +720,7 @@ trait Identification {
                     " user_last_change = :id_user,".
                     " date_last_change = :last_change ".
             "WHERE id_user = :id ");
- 
+
             // Asignar el valor del parámetro
             $stmt->bindParam(':login', $param['login']);
             $stmt->bindParam(':name_surname', $param['name_surname']);
@@ -729,7 +731,7 @@ trait Identification {
 
             // Ejecutar y obtener resultados
             $stmt->execute();
-            
+
             if ( $stmt->rowCount() == 0 ) { // No se ha actualizado ningún registro
                 $response->getBody()->write(json_encode(['message'=>$errorMessages['031']]));
                 return $response
@@ -748,7 +750,7 @@ trait Identification {
                  ->withStatus(400);
          }
     }
-    
+
         // EDIT de Usuarios
     public function userPassword(Request $request, Response $response, $args)   
     {   
@@ -767,13 +769,13 @@ trait Identification {
 
         $id_user = $dataUser['id_user'];
 
-              
+
         // Verificación de que están todos los campos 
         // " login, name_surname,  email"
         // Todos los campos son obligatorios
-        
+
         $param = $request->getParsedBody();          // Obtener los datos del JSON
-       
+
         $verify = verifyRequiredParams(array('passwordOld', 'passwordNew1', 'passwordNew2'), $param); 
         if ($verify['error'] == true ){ // Se ha encontrado error en la verificación
             $response->getBody()->write(json_encode(["message"=> $verify['message']]));
@@ -781,7 +783,7 @@ trait Identification {
                 ->withHeader('content-type', 'application/json')
                 ->withStatus($verify['error_status']);   
         }
-        
+
         // Obtener los datos del ususario conectado"
         $stmt = $this->db->prepare("SELECT u1.id_user, u1.login, u1.password, ".
         " u1.name_surname, u1.email, u1.user_last_change, ".
@@ -797,7 +799,7 @@ trait Identification {
         custom_error(400, "Registro recuperado: ".print_r($userData, true));
         $ConexPassword = $userData['password'];
         $passwordOldMd5 = MD5($param['passwordOld']);
-        
+
         // Controles de verificación de Password
         if ( $ConexPassword <> $passwordOldMd5 OR $param['passwordNew1'] <> $param['passwordNew2'] ) {
                 $response->getBody()->write(json_encode(['message'=>$errorMessages['047']]));
@@ -805,7 +807,7 @@ trait Identification {
                      ->withHeader('content-type', 'application/json')
                      ->withStatus(400);
             }
-        
+
         try {
             // UPDATE USER
             $now = date('Y-m-d H:i:s');         // Fecha actual
@@ -816,7 +818,7 @@ trait Identification {
                     " user_last_change = :id_user,".
                     " date_last_change = :last_change ".
             "WHERE id_user = :id ");
- 
+
             // Asignar el valor del parámetro
             $stmt->bindParam(':password', $password);
             $stmt->bindParam(':id_user', $id_user);
@@ -825,7 +827,7 @@ trait Identification {
 
             // Ejecutar y obtener resultados
             $stmt->execute();
-            
+
             if ( $stmt->rowCount() == 0 ) { // No se ha actualizado ningún registro
                 $response->getBody()->write(json_encode(['message'=>$errorMessages['031']]));
                 return $response
@@ -844,8 +846,8 @@ trait Identification {
                  ->withStatus(400);
          }
     }
-   
-    
+
+
     private function sendEmail($from, $addressArray, $replyToArray , $subject, $body, $attachmentArray=array() )
         {
         // Validaciones de los parámetros de la función
@@ -857,7 +859,7 @@ trait Identification {
         {
             return false;                   // Parámetros incorrectos
         }
-        
+
         //Create an instance; passing `true` enables exceptions
         $mail = new PHPMailer(true);
         // $mail->SMTPDebug  = 2;      // En MODO DEBUG
@@ -903,5 +905,97 @@ trait Identification {
 
     }
 }
+```
+
+</details>
+
+Utilizo el fichero «**Config.php**» para definir aquello que puede ser variable dependiendo del entorno. Este es el fichero que tenéis que ajustar para que funcione en vuestros PC’s.
+
+Veis que el fichero «**index.php**«, está mucho más estructurado y sencillo de entender. También he incluido el [DEBUG](https://fhumanes.com/blog/guias-desarrollo/guia-34-metodo-basico-para-depuracion-codigo/) que os conté en el entorno de PHPRunner. En local, utilizo el debug integrado con NetBeans, pero en remoto, utilizo este otro sistema, muy 
+parecido al «console.log» del entorno de JavaScript
+
+En el fichero «**DbFunction.php**» es donde he incluido más cambios. He agrupado las funciones en diferentes ficheros y como está escrito con orientación a objeto, definiendo una clase para todas las funciones, he utilizado esta codificación para que quede más fácil de acceder a cada una de las funciones.
+
+El fichero «**DBF_Identification.php**» he incluído las funciones de login, registro de nuevos usuarios, etc., todo lo referido a la identificación y a la gestión de la sesión (**token-user**, que es la identificación de la sesión).
+
+Los que hayáis utilizado alguno de mis ejemplos anteriores, no tendréis problema en entender el código. Para cualquier de vosotros, podéis **escribirme un email**, para preguntarme lo que necesitéis.
+
+
+
+## Aplicación Front-End
+
+Como he indicado es Svelte 5 (sólo JavaScript, no TypeScript) y los componentes de SVAR UI. Entiendo que antes de acceder a este ejemplo, habéis visto, si no todos, la mayoría de los ejemplos previos o disponéis de conocimientos de Svelte 5. Si no es así, os va a ser difícil entender todos los códigos del ejemplo.
+
+Según he ido desarrollando el ejemplo he observado que Copilot iba 
+mejorando en su funcionamiento, estando en estos momentos en un nivel 
+bastante bueno.
+
+Igual que en el apartado anterior os mostraré algunos ficheros significativos, pero en este caso, como hay mucho más código, seguro que hay otros muchos que tienen «trucos» interesantes.
+
+La aplicación es COMPLETA, es decir, es una aplicación básica pero que «toca» todos los aspectos de una aplicación «profesional», por ello, una vez que conoces lo básico del Svelte 5, este ejemplo puede mejorar tu aptitud para hacer algo de cierta calidad. 
+
+Está orientada a que funcione en móvil y escritorio.
+
+<details>
+<summary>lib/config.js</summary>
+
+```js
+
+```
+</details>
+<details>
+<summary>src/App.svelte</summary>
+
+```js
+
+```
+</details>
+<details>
+<summary>component/Header_2.svelte</summary>
+
+```js
+
+```
+</details>
+<details>
+<summary>lib/api.js</summary>
+
+```js
+
+```
+</details>
+<details>
+<summary>lib/utils</summary>
+
+```js
+
+```
+</details>
+<details>
+<summary>pages/MiPerfil.svelte</summary>
+
+```js
+
+```
+</details>
+<details>
+<summary>pages/Grupos.svelte</summary>
+
+```js
+
+```
+</details>
+<details>
+<summary>pages/Productos.svelte</summary>
+
+```js
+
+```
+</details>
+<details>
+<summary>pages/ProductosForm.svelte</summary>
+
+```js
+
 ```
 </details>
