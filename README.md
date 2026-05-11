@@ -13,14 +13,12 @@ Me gusta utilizar este ejemplo por:
 
 - Está orientada a que funcione en el Móvil y en el PC.
 - Tiene gestión de usuarios y de roles.
-- Maneja ficheros (imágenes), texto, password, números, fechas, check, etc. Gestiona GRID y FORMS.
+- Maneja ficheros (imágenes), texto, password, números, fechas, check, etc. Gestiona **GRID** y **FORMS**.
 - Controla las sesiones en el server y estas sesiones tienen un tiempo de caducidad, por no utilización de la aplicación.
 - El modelo de datos es sencillo.
 - Y la gestión de la aplicación, que no es relevante en el ejercicio, es muy simple y facilita la compresión rápida para su uso.
 
-En el ejemplo he utilizado las guías anteriores de Svelte 5, salvo la
- de multi-idioma, porque no quise que tuviera más complejidad y así 
-facilitar su entendimiento.
+En el ejemplo he utilizado las guías anteriores de Svelte 5, salvo la de multi-idioma, porque no quise que tuviera más complejidad y así facilitar su entendimiento.
 
 Como se ha indicado en las Guías, he utilizado los componentes de **[SVAR](https://svar.dev/)**.
  Son un poco complejos de entender, pero una vez que entiendes cómo 
@@ -38,6 +36,7 @@ personas que deseen incorporarse al desarrollo de aplicaciones en Svelte5.
 **DEMO**:  https://fhumanes.com/my-shopping
 
 Están los usuarios **admin/admin** y **usuario/usuario**.
+
 Ruego que no destruyáis los ejemplos para que otros puedan utilizarlos y os propongo que os registréis para tener un «ambiente» particular para  vosotros. En el email, podéis utilizar el vuestro o poner uno ficticio. 
 
 Si es el vuestro recibiréis un email, para que veáis que se puede hacer 
@@ -62,14 +61,13 @@ ningún problema, siempre que no tengas que cambiar la arquitectura  técnica de
 
 <img src="assets/2026-05-10-20-26-24-image.png" title="" alt="" data-align="center">
 
-En «shopping_session» se mantiene los datos del usuario y los específicos de la sesión, por lo que esta arquitectura, además de segura y altamente potente, se podrían poner múltiples máquinas para gestionar la aplicación del Back-End. Teniendo en cuenta que la aplicación de  Front-End es Javascript y utiliza exclusivamente los recursos de los 
-usuarios conectados, a nivel de recursos necesarios para la puesta en Producción es muy baja, lo que define una arquitectura muy escalabre y  pocos recursos necesarios.
+En «**shopping_session**» se mantiene los datos del usuario y los específicos de la sesión, por lo que esta arquitectura, además de segura y altamente potente, se podrían poner múltiples máquinas para gestionar la aplicación del Back-End. Teniendo en cuenta que la aplicación de  Front-End es JavaScript y utiliza exclusivamente los recursos de los usuarios conectados, a nivel de recursos necesarios para la puesta en Producción es muy baja, lo que define una arquitectura muy escalabre y  pocos recursos necesarios.
 
 He utilizado intensamente la integridad referencial y la normalización de los datos. Yo lo recomiendo como os expliqué en el [tutorial](https://fhumanes.com/blog/otros-ejemplos/tutorial-curso-basico-de-phprunner/) de PHPRunner. Creo que al final, casi todo son ventajas.
 
 ## Aplicación de Back-End
 
-Como os he indicado, está desarrollada en PHP y el micro Framework de SLIM 4. Es bastante sencillo de construcción, en este caso, sin unirse a  PHPRunner y lo mejor, es que funciona en cualquier hosting barato, lo  que permite ponerlo en Producción con unos costes mínimos.
+Como os he indicado, está desarrollada en **PHP** y el **micro Framework de SLIM 4**. Es bastante sencillo de construcción, en este caso, sin unirse a  PHPRunner y lo mejor, es que funciona en cualquier hosting barato, lo  que permite ponerlo en Producción con unos costes mínimos.
 
 He mantenido la estructura general que he utilizado hasta ahora, pero he mejorado en la estructura del código, lo que hace que sea más  sencillo de entender y, desde mi punto de vista, construirlo. Os voy a  mostrar un conjunto de ficheros para que veáis la sencillez.
 
@@ -912,23 +910,25 @@ trait Identification {
 Utilizo el fichero «**Config.php**» para definir aquello que puede ser variable dependiendo del entorno. Este es el fichero que tenéis que ajustar para que funcione en vuestros PC’s.
 
 Veis que el fichero «**index.php**«, está mucho más estructurado y sencillo de entender. También he incluido el [DEBUG](https://fhumanes.com/blog/guias-desarrollo/guia-34-metodo-basico-para-depuracion-codigo/) que os conté en el entorno de PHPRunner. En local, utilizo el debug integrado con NetBeans, pero en remoto, utilizo este otro sistema, muy 
-parecido al «console.log» del entorno de JavaScript
+parecido al «**console.log**» del entorno de JavaScript
 
 En el fichero «**DbFunction.php**» es donde he incluido más cambios. He agrupado las funciones en diferentes ficheros y como está escrito con orientación a objeto, definiendo una clase para todas las funciones, he utilizado esta codificación para que quede más fácil de acceder a cada una de las funciones.
 
-El fichero «**DBF_Identification.php**» he incluído las funciones de login, registro de nuevos usuarios, etc., todo lo referido a la identificación y a la gestión de la sesión (**token-user**, que es la identificación de la sesión).
+El fichero «**DBF_Identification.php**» he incluido las funciones de *login*, *registro de nuevos usuarios*, *etc*., todo lo referido a la identificación y a la gestión de la sesión (**token-user**, que es la identificación de la sesión).
 
-Los que hayáis utilizado alguno de mis ejemplos anteriores, no tendréis problema en entender el código. Para cualquier de vosotros, podéis **escribirme un email**, para preguntarme lo que necesitéis.
+Los que hayáis utilizado alguno de mis ejemplos anteriores, no tendréis problema en entender el código. Para quién lo necesite, podéis **escribirme un email**, para preguntarme lo que necesitéis.
+
+
 
 ## Aplicación Front-End
 
-Como he indicado es Svelte 5 (sólo JavaScript, no TypeScript) y los componentes de SVAR UI. Entiendo que antes de acceder a este ejemplo, habéis visto, si no todos, la mayoría de los ejemplos previos o disponéis de conocimientos de Svelte 5. Si no es así, os va a ser difícil entender todos los códigos del ejemplo.
+Como he indicado es Svelte 5 (sólo JavaScript, no TypeScript) y los componentes de **SVAR UI**. Entiendo que antes de acceder a este ejemplo, habéis visto, si no todos, la mayoría de los ejemplos previos o disponéis de conocimientos de Svelte 5. Si no es así, os va a ser difícil entender todos los códigos del ejemplo.
 
 Según he ido desarrollando el ejemplo he observado que Copilot iba 
 mejorando en su funcionamiento, estando en estos momentos en un nivel 
 bastante bueno.
 
-Igual que en el apartado anterior os mostraré algunos ficheros significativos, pero en este caso, como hay mucho más código, seguro que hay otros muchos que tienen «trucos» interesantes.
+Igual que en el apartado anterior os mostraré algunos ficheros significativos, pero en este caso, como hay mucho más código, seguro que hay otros muchos ficheros que tienen «**trucos**» interesantes.
 
 La aplicación es COMPLETA, es decir, es una aplicación básica pero que «toca» todos los aspectos de una aplicación «profesional», por ello, una vez que conoces lo básico del Svelte 5, este ejemplo puede mejorar tu aptitud para hacer algo de cierta calidad. 
 
@@ -963,7 +963,7 @@ export const APP_CONFIG = {
 <details>
 <summary>src/App.svelte</summary>
 
-```js
+```svelte
 <script>
     import { Willow, Button } from '@svar-ui/svelte-core';
     import Toasts from './notification/Toasts.svelte'; // Asegúrate de que la ruta sea correcta
@@ -1189,7 +1189,7 @@ export const APP_CONFIG = {
 <details>
 <summary>component/Header_2.svelte</summary>
 
-```js
+```svelte
 <script>
   import Fa from 'svelte-fa';
   import { faBasketShopping, faCircleChevronDown, faCircleChevronRight, faCarrot, faLayerGroup, faUserGroup,faRightToBracket,faUser, faPeopleGroup } 
@@ -1638,7 +1638,7 @@ export function clearGroup() {
 <details>
 <summary>pages/MiPerfil.svelte</summary>
 
-```js
+```svelte
 <script>
 import { onMount } from 'svelte';
 import { Button, Locale } from 'wx-svelte-core'; // Eliminamos Willow
@@ -2130,7 +2130,7 @@ const bottomBarView={ // Definición del bottomBar para modo  view
 <details>
 <summary>pages/Grupos.svelte</summary>
 
-```js
+```svelte
 <script>
 import { onMount } from 'svelte';
 import { ModalArea } from "wx-svelte-core";
@@ -2710,7 +2710,7 @@ const columns = $derived([
 <details>
 <summary>pages/Productos.svelte</summary>
 
-```js
+```svelte
 <script>
   import { onMount } from 'svelte';
   import { ModalArea } from "@svar-ui/svelte-core"; // Ventana de Confirmación
@@ -3695,17 +3695,17 @@ En «**App.svelte**» tenemos la pieza principal de la APP. Está construida com
 
 - Se especifica la cabecera y menú de la aplicación. Para ello se controla si está o no, identificado y el perfil de usuario que está identificado.
 
-- Se dispone del conjunto de «vistas» que e relaciona con la información que se va a mostrar (distintas páginas) y de la función «**cambiarVista**», que recibirá y cambiará la vista desde el menú y desde las diferentes vistas. (Mecanismo para cambiar de páginas).
+- Se dispone del conjunto de «vistas» que se relaciona con la información que se va a mostrar (distintas páginas) y de la función «**cambiarVista**», que recibirá y cambiará la vista desde el menú y desde las diferentes vistas. (Mecanismo para cambiar de páginas).
 
 - También, tiene todos los estilos de personalizados, para los componentes de **SVAR UI**.
 
 «**Header_2.svelte**» es un ejemplo de uno de los ficheros del menú. Podéis ver que es muy simple y fácil de leer y modificar. Hay 3 menús:
 
-- Antes de que le usuario se identifique.
+- Antes de que el usuario se identifique.
 
-- Cuando el usuario se ha identificado y no es «administrador» de la App. **usuario/usuario**.
+- Cuando el usuario se ha identificado y **no** es «**administrador**» de la App. **usuario/usuario**.
 
-- Cuando el usuario está identificado y además es usuario «administrador» de la App. **admin/admin**
+- Cuando el usuario está identificado y además es usuario «**administrador**» de la App. **admin/admin**
 
 «**api.js**» . Me encanta cómo ha quedado. Es una función para establecer la comunicación con el server. Controla:
 
@@ -3727,6 +3727,4 @@ A nivel de codificación es la que tiene más posibilidades, por lo que espero q
 «**ProductosForm.svelte**» son los formularios de **ADD, EDIT y VIEW** de Productos. Está separado del GRID, para que observéis otra posibilidad, que además facilita la cabecera de la página. En este caso incorpora varios «**customer component**» de **EDITOR** de **SVAR**, para la visualización de los datos, la edición de fechas y horas, así como la subida de ficheros y **reducción de las imágenes en el navegador**.
 Estoy muy contento con la solución de subida de ficheros.
 
-
-
-Estoy convencido que Svelte5 tiene presente y futuro y poco a poco se irá expandiendo su utilización y reemplazando a los desarrollos de REACT y otros. También, para aquellos que venimos de desarrollos web (como PHPRunner, etc.), donde hemos trabajado mucho con HTML, CSS y JavaScript, <u>es el entorno más potente y evolucionado que nos cuesta menos aprender</u>.
+Estoy convencido que Svelte5 tiene presente y futuro y poco a poco se irá expandiendo su utilización y reemplazando a los desarrollos de REACT y otros. También, para aquellos que venimos de desarrollos web (como PHPRunner, etc.), donde hemos trabajado mucho con HTML, CSS y JavaScript, **es el entorno más potente y evolucionado que nos cuesta menos aprender**.
