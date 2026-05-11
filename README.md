@@ -3437,7 +3437,7 @@ function exportToExcel() {
 <details>
 <summary>pages/ProductosForm.svelte</summary>
 
-```js
+```svelte
 <script>
   import { Button, Locale } from 'wx-svelte-core'; // Eliminamos Willow de aquí
   import { Editor } from 'wx-svelte-editor';
