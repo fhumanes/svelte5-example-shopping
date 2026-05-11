@@ -24,7 +24,7 @@ define('EMAIL_PORT', 465);
 // In Server Linux
 define('DB_HOST', 'localhost');
 define('DB_USER', 'u637977917_admin' );
-define('DB_PASSWORD', 'adminFernando1#'); 
+define('DB_PASSWORD', 'XXXXXXXXXXXXXXX'); 
 define('DB_NAME', 'u637977917_shopping'); 
 // Config PHPMailer
 define('EMAIL_HOST', 'smtp.hostinger.com');
